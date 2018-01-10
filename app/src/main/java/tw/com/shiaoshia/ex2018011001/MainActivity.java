@@ -16,29 +16,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         handler = new Handler();
         tv = findViewById(R.id.textView);
-        MyThread t = new MyThread();
-        t.start();
+        handler.post(r);
     }
 
-    class MyThread extends Thread {
+    Runnable r = new Runnable() {
         @Override
         public void run() {
-            super.run();
-            while (true) {
-                try {
-                    Thread.sleep(1000); //延遲1秒
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                //handler.post(new Runable());
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        tv.setText(String.valueOf(Integer.valueOf(tv.getText().toString()) + 1));
-                    }
-                });
-            }
+            tv.setText(String.valueOf(Integer.valueOf(tv.getText().toString())+1));
+            handler.postDelayed(r,1000);    //延遲一秒，並自己呼叫自己
         }
-    }
+    };
 
 }
